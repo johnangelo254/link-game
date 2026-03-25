@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviator Crash Game - M-Pesa</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>✈️ Aviator Crash Game</h1>
+            <p>Watch the plane fly and cash out before it crashes!</p>
+        </header>
+
+        <div class="game-container">
+            <div class="panel betting-panel">
+                <div class="balance-section">
+                    <div class="balance-display">
+                        Balance: KES <span id="balance">1000.00</span>
+                    </div>
+                    <div class="wallet-buttons">
+                        <button id="depositBtn" class="wallet-btn deposit">Deposit</button>
+                        <button id="withdrawBtn" class="wallet-btn withdraw">Withdraw</button>
+                    </div>
+                </div>
+                
+                <div class="game-status waiting" id="gameStatus">
+                    Waiting for next round...
+                </div>
+
+                <div class="bet-controls">
+                    <div class="bet-input-group">
+                        <label for="betAmount">Bet Amount (KES)</label>
+                        <input type="number" id="betAmount" class="bet-input" value="50" min="10" max="50000" step="10">
+                    </div>
+
+                    <div class="auto-cashout">
+                        <input type="checkbox" id="autoCashoutEnabled">
+                        <input type="number" id="autoCashoutMultiplier" class="auto-cashout-input" placeholder="Auto cashout at" min="1.1" max="100" step="0.1">
+                    </div>
+
+                    <button id="betButton" class="bet-button bet">Place Bet</button>
+                    <button id="cashoutButton" class="bet-button cashout" disabled>Cash Out</button>
+                </div>
+            </div>
+
+            <div class="game-area" id="gameArea">
+                <div class="grid-overlay"></div>
+                <div class="multiplier-display" id="multiplierDisplay">1.00x</div>
+                <div class="plane" id="plane">
+                    <div class="plane-icon">✈️</div>
+                </div>
+            </div>
+
+            <div class="panel history-panel">
+                <h3>Game History</h3>
+                <div id="historyList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Deposit Modal -->
+    <div id="depositModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>💰 Deposit Funds via M-Pesa</h2>
+            
+            <form id="depositForm">
+                <div class="form-group">
+                    <label for="depositAmount">Amount (KES)</label>
+                    <input type="number" id="depositAmount" min="10" max="50000" step="10" required>
+                    <small>Minimum: KES 10, Maximum: KES 50,000</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="mpesaNumber">M-Pesa Phone Number</label>
+                    <input type="tel" id="mpesaNumber" placeholder="07XX XXX XXX" pattern="07[0-9]{8}" required>
+                    <small>Format: 07XX XXX XXX</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="mpesaName">Account Name</label>
+                    <input type="text" id="mpesaName" placeholder="Your Full Name" required>
+                </div>
+
+                <div class="mpesa-instructions">
+                    <h3>📱 How to Deposit:</h3>
+                    <ol>
+                        <li>Enter your M-Pesa number and amount above</li>
+                        <li>Click "Request M-Pesa STK Push"</li>
+                        <li>Check your phone for M-Pesa prompt</li>
+                        <li>Enter your M-Pesa PIN to confirm</li>
+                        <li>Funds will be added to your account instantly</li>
+                    </ol>
+                </div>
+                
+                <button type="submit" class="submit-btn">Request M-Pesa STK Push</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Withdrawal Modal -->
+    <div id="withdrawModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>💸 Withdraw Funds via M-Pesa</h2>
+            
+            <form id="withdrawForm">
+                <div class="form-group">
+                    <label for="withdrawAmount">Amount (KES)</label>
+                    <input type="number" id="withdrawAmount" min="50" max="50000" step="10" required>
+                    <small>Available: KES <span id="availableBalance">1000.00</span></small>
+                    <small>Minimum withdrawal: KES 50</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="withdrawMpesaNumber">M-Pesa Phone Number</label>
+                    <input type="tel" id="withdrawMpesaNumber" placeholder="07XX XXX XXX" pattern="07[0-9]{8}" required>
+                    <small>Format: 07XX XXX XXX</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="withdrawMpesaName">Account Name</label>
+                    <input type="text" id="withdrawMpesaName" placeholder="Your Full Name" required>
+                </div>
+
+                <div class="withdrawal-info">
+                    <h3>⚠️ Withdrawal Information:</h3>
+                    <ul>
+                        <li>Processing time: Instant to 5 minutes</li>
+                        <li>Withdrawal fee: KES 0 (Free withdrawals)</li>
+                        <li>Maximum daily withdrawal: KES 100,000</li>
+                        <li>You will receive an M-Pesa confirmation message</li>
+                    </ul>
+                </div>
+                
+                <button type="submit" class="submit-btn withdraw-submit">Withdraw to M-Pesa</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Transaction Status Modal -->
+    <div id="statusModal" class="modal">
+        <div class="modal-content status-modal">
+            <span class="close">&times;</span>
+            <div id="statusContent"></div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
